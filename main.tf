@@ -1,5 +1,5 @@
 locals {
-  ingress_cidr       = ["0.0.0.0/0", data.aws_vpc.selected.cidr_block]
+  ingress_cidr       = ["0.0.0.0/0"]
 }
 
 resource "aws_rds_cluster" "example" {
