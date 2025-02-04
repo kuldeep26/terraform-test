@@ -26,11 +26,12 @@ resource "null_resource" "create_db_role_2" {
 
   provisioner "local-exec" {
     command = <<EOT
-      PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password --query 'SecretString' --output text | jq -r .password) \
-      psql -h ${aws_rds_cluster.example.endpoint} -U test -d test -c "CREATE ROLE ibm_ingestor WITH PASSWORD '$(aws secretsmanager get-secret-value --secret-id rds/master/password --query 'SecretString' --output text | jq -r .password')' LOGIN;"
+      export PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password --query "SecretString" --output text | jq -r .password)
+      psql -h ${aws_rds_cluster.example.endpoint} -U test -d test -c "CREATE ROLE ibm_ingestor WITH PASSWORD '${PGPASSWORD}' LOGIN;"
     EOT
   }
 }
+
 
 
 
