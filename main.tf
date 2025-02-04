@@ -6,7 +6,7 @@ resource "aws_rds_cluster" "example" {
   cluster_identifier              = "example"
   engine                          = "aurora-postgresql"
   engine_mode                     = "provisioned"
-  engine_version                  = "14.9"
+  engine_version                  = "14.10"
   database_name                   = "test"
   master_username                 = "test"
   master_password                 = "must_be_eight_characters"
