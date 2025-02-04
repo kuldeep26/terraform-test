@@ -20,6 +20,19 @@ resource "aws_rds_cluster" "example" {
     min_capacity             = 0.0
     seconds_until_auto_pause = 3600
   }
+
+  lifecycle {
+
+    ignore_changes = [
+      tags,
+      availability_zones,
+      cluster_members,
+      engine_version,
+      snapshot_identifier,
+      final_snapshot_identifier,
+      iam_database_authentication_enabled
+    ]
+  }
 }
 
 resource "aws_rds_cluster_instance" "example" {
@@ -29,6 +42,13 @@ resource "aws_rds_cluster_instance" "example" {
   db_parameter_group_name = aws_db_parameter_group.parameter_group.name
   instance_class          = "db.t3.medium"
   publicly_accessible     = true
+
+  lifecycle {
+    ignore_changes = [
+      engine_version,
+      tags
+    ]
+  }
 }
 
 resource "aws_rds_cluster_parameter_group" "cluster_parameter_group" {
