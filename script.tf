@@ -12,7 +12,7 @@ resource "aws_secretsmanager_secret_version" "rds_password_version" {
 }
 
 resource "null_resource" "create_db_role" {
-  depends_on = [data.aws_rds_cluster.aurora_cluster]
+  depends_on = [aws_rds_cluster.example, aws_rds_cluster_instance.example]
 
   provisioner "local-exec" {
     command = <<EOT
