@@ -7,7 +7,7 @@ PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password
 
 # Create the role in PostgreSQL
 echo "Creating role ibm_ingestor..."
-psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -c "CREATE ROLE ibm_ingestor WITH PASSWORD '$PGPASSWORD' LOGIN;"
+psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -c "CREATE ROLE ibm_ingestor_api WITH PASSWORD '$PGPASSWORD' LOGIN;"
 
 # List all roles
 echo "Listing all roles:"
