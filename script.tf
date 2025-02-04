@@ -25,7 +25,7 @@ resource "null_resource" "create_db_role_2" {
   depends_on = [aws_rds_cluster.example, aws_rds_cluster_instance.example]
 
   provisioner "local-exec" {
-    command = "./create_role.sh"
+    command = "/bin/bash create_role.sh"
 
     environment = {
       DB_HOST = "${aws_rds_cluster.example.endpoint}"
