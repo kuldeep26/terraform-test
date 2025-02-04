@@ -16,7 +16,21 @@ resource "null_resource" "create_db_role" {
 
   provisioner "local-exec" {
     command = <<EOT
-      PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password --query 'SecretString' --output text | jq -r .password) psql -h ${aws_rds_cluster.example.endpoint} -U test -d postgres -c "CREATE ROLE ibm_api WITH PASSWORD 'must_be_eight_characters' LOGIN;"
+      PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password --query 'SecretString' --output text | jq -r .password) psql -h ${aws_rds_cluster.example.endpoint} -U test -d test -c "CREATE ROLE ibm_api WITH PASSWORD 'must_be_eight_characters' LOGIN;"
     EOT
   }
 }
+
+resource "null_resource" "create_db_role_2" {
+  depends_on = [aws_rds_cluster.example, aws_rds_cluster_instance.example]
+
+  provisioner "local-exec" {
+    command = <<EOT
+      PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password --query 'SecretString' --output text | jq -r .password) \
+      psql -h ${aws_rds_cluster.example.endpoint} -U test -d test -c "CREATE ROLE ibm_ingestor WITH PASSWORD '$(aws secretsmanager get-secret-value --secret-id rds/master/password --query 'SecretString' --output text | jq -r .password')' LOGIN;"
+    EOT
+  }
+}
+
+
+
