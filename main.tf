@@ -1,5 +1,5 @@
 locals {
-  ingress_cidr       = ["0.0.0.0/0"]
+  ingress_cidr = ["0.0.0.0/0"]
 }
 
 resource "aws_rds_cluster" "example" {
@@ -12,7 +12,8 @@ resource "aws_rds_cluster" "example" {
   master_password                 = "must_be_eight_characters"
   storage_encrypted               = true
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.cluster_parameter_group.name
-  availability_zones = ["us-east-1a", "us-east-1b"]
+  availability_zones              = ["us-east-1a", "us-east-1b"]
+  skip_final_snapshot             = true
 
   serverlessv2_scaling_configuration {
     max_capacity             = 1.0
