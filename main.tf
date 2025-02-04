@@ -6,7 +6,7 @@ resource "aws_rds_cluster" "example" {
   cluster_identifier              = "example"
   engine                          = "aurora-postgresql"
   engine_mode                     = "provisioned"
-  engine_version                  = "14.10"
+  engine_version                  = "15.10"
   database_name                   = "test"
   master_username                 = "test"
   master_password                 = "must_be_eight_characters"
@@ -30,12 +30,12 @@ resource "aws_rds_cluster_instance" "example" {
 }
 
 resource "aws_rds_cluster_parameter_group" "cluster_parameter_group" {
-  family = "aurora-postgresql14"
+  family = "aurora-postgresql15"
   name   = "test"
 }
 
 resource "aws_db_parameter_group" "parameter_group" {
-  family = "aurora-postgresql14"
+  family = "aurora-postgresql15"
   name   = "test"
 }
 
