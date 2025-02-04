@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e  # Exit on any error
+set -e  #  Exit on any error
 
 # Fetch RDS password from AWS Secrets Manager
 PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password --query "SecretString" --output text | jq -r .password)
