@@ -21,14 +21,17 @@ resource "null_resource" "create_db_role" {
   }
 }
 
-resource "null_resource" "create_db_role_2" {
+resource "null_resource" "create_db_role" {
   depends_on = [aws_rds_cluster.example, aws_rds_cluster_instance.example]
 
   provisioner "local-exec" {
-    command = <<EOT
-      export PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password --query "SecretString" --output text | jq -r .password)
-      psql -h '${aws_rds_cluster.example.endpoint}' -U test -d test -c "CREATE ROLE ibm_ingestor WITH PASSWORD '${PGPASSWORD}' LOGIN;"
-    EOT
+    command = "./create_role.sh"
+
+    environment = {
+      DB_HOST = "${aws_rds_cluster.example.endpoint}"
+      DB_USER = "test" # Change as needed
+      DB_NAME = "test" # Change as needed
+    }
   }
 }
 
