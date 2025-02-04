@@ -1,9 +1,15 @@
 #!/bin/bash
 
-set -e  #  Exit on any error
+set -e  # Exit immediately if a command fails
 
 # Fetch RDS password from AWS Secrets Manager
-PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password --query "SecretString" --output text | jq -r .password)
+export PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password --query "SecretString" --output text | jq -r .password)
+
+# Ensure the password is set
+if [[ -z "$PGPASSWORD" ]]; then
+  echo "Error: Failed to retrieve database password from Secrets Manager."
+  exit 1
+fi
 
 # Create the role in PostgreSQL
 echo "Creating role ibm_ingestor..."
