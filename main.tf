@@ -28,6 +28,7 @@ resource "aws_rds_cluster_instance" "example" {
   engine_version          = aws_rds_cluster.example.engine_version
   db_parameter_group_name = aws_db_parameter_group.parameter_group.name
   instance_class          = "db.t3.medium"
+  publicly_accessible     = true
 }
 
 resource "aws_rds_cluster_parameter_group" "cluster_parameter_group" {
