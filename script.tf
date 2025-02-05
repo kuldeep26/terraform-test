@@ -1,4 +1,4 @@
-resource "random_password" "db_role_api_password" {
+resource "random_string" "db_role_api_password" {
   length  = 10
   special = false
 }
@@ -12,7 +12,7 @@ resource "aws_secretsmanager_secret_version" "rds_role_password_version" {
   secret_id = aws_secretsmanager_secret.rds_role_password.id
   secret_string = jsonencode({
     username = "ibm_ingestor_api",
-    password = "${random_password.db_role_api_password.result}"
+    password = "${random_string.db_role_api_password.result}"
   })
 }
 
@@ -36,10 +36,10 @@ resource "null_resource" "create_db_role_2" {
     command = "/bin/bash create_role.sh"
 
     environment = {
-      DB_HOST = "${aws_rds_cluster.example.endpoint}"
-      DB_USER = "test" # Change as needed
-      DB_NAME = "test" # Change as needed
-      ROLE_PASSWORD = "${random_password.db_role_api_password.result}"
+      DB_HOST       = "${aws_rds_cluster.example.endpoint}"
+      DB_USER       = "test" # Change as needed
+      DB_NAME       = "test" # Change as needed
+      ROLE_PASSWORD = "${random_string.db_role_api_password.result}"
     }
   }
 }

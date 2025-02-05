@@ -13,7 +13,7 @@ fi
 
 # Create the role in PostgreSQL
 echo "Creating role ibm_ingestor..."
-psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -c "CREATE ROLE ibm_ingestor_api WITH PASSWORD '$PGPASSWORD' LOGIN;"
+psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -c "CREATE ROLE ibm_api WITH PASSWORD '$ROLE_PASSWORD' LOGIN;"
 
 # List all roles
 echo "Listing all roles:"
