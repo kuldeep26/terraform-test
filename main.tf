@@ -6,7 +6,8 @@ resource "aws_rds_cluster" "example" {
   cluster_identifier              = "example"
   engine                          = "aurora-postgresql"
   engine_mode                     = "provisioned"
-  engine_version                  = "15.10"
+  engine_version                  = "14.15"
+  vpc_security_group_ids          = [aws_security_group.subnet_group.id]
   database_name                   = "test"
   master_username                 = "test"
   master_password                 = "must_be_eight_characters"
@@ -52,24 +53,24 @@ resource "aws_rds_cluster_instance" "example" {
 }
 
 resource "aws_rds_cluster_parameter_group" "cluster_parameter_group" {
-  family = "aurora-postgresql15"
+  family = "aurora-postgresql14"
   name   = "test"
 }
 
 resource "aws_db_parameter_group" "parameter_group" {
-  family = "aurora-postgresql15"
+  family = "aurora-postgresql14"
   name   = "test"
 }
 
 resource "aws_db_subnet_group" "subnet_group" {
   name        = "db-subnet"
   description = "Subnet groups for RDS with Private subnet ids"
-  subnet_ids  = ["subnet-0eb850ca6834b9185", "subnet-09a842c59ff6dd9f9"]
+  subnet_ids  = ["subnet-011f1bd1ebafaf2aa", "subnet-0062533b0e05b0700"]
 }
 
 resource "aws_security_group" "security_group" {
   name   = "rds-security-group"
-  vpc_id = "vpc-07e5eb6080a345919"
+  vpc_id = "vpc-097d46761a7957650"
 
   dynamic "ingress" {
     for_each = toset(local.ingress_cidr)

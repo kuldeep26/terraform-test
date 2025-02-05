@@ -1,28 +1,36 @@
+resource "random_password" "db_role_api_password" {
+  length  = 10
+  special = false
+}
+
+resource "aws_secretsmanager_secret" "rds_role_password" {
+  name        = "rds/role/password"
+  description = "Role password for RDS"
+}
+
+resource "aws_secretsmanager_secret_version" "rds_role_password_version" {
+  secret_id = aws_secretsmanager_secret.rds_role_password.id
+  secret_string = jsonencode({
+    username = "ibm_ingestor_api",
+    password = "${random_password.db_role_api_password.result}"
+  })
+}
+
 resource "aws_secretsmanager_secret" "rds_password" {
   name        = "rds/master/password"
-  description = "Master password for RDS"
+  description = "RDS password for RDS"
 }
 
 resource "aws_secretsmanager_secret_version" "rds_password_version" {
   secret_id = aws_secretsmanager_secret.rds_password.id
   secret_string = jsonencode({
-    username = "master",
+    username = "test",
     password = "must_be_eight_characters"
   })
 }
 
-resource "null_resource" "create_db_role" {
-  depends_on = [aws_rds_cluster.example, aws_rds_cluster_instance.example]
-
-  provisioner "local-exec" {
-    command = <<EOT
-      PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password --query 'SecretString' --output text | jq -r .password) psql -h ${aws_rds_cluster.example.endpoint} -U test -d test -c "CREATE ROLE ibm_api WITH PASSWORD 'must_be_eight_characters' LOGIN;"
-    EOT
-  }
-}
-
 resource "null_resource" "create_db_role_2" {
-  depends_on = [aws_rds_cluster.example, aws_rds_cluster_instance.example]
+  depends_on = [aws_rds_cluster.example, aws_rds_cluster_instance.example, aws_secretsmanager_secret_version.rds_role_password_version]
 
   provisioner "local-exec" {
     command = "/bin/bash create_role.sh"
@@ -31,6 +39,7 @@ resource "null_resource" "create_db_role_2" {
       DB_HOST = "${aws_rds_cluster.example.endpoint}"
       DB_USER = "test" # Change as needed
       DB_NAME = "test" # Change as needed
+      ROLE_PASSWORD = "${random_password.db_role_api_password.result}"
     }
   }
 }
