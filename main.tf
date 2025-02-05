@@ -19,7 +19,6 @@ resource "aws_rds_cluster" "example" {
   serverlessv2_scaling_configuration {
     max_capacity             = 1.0
     min_capacity             = 0.0
-    seconds_until_auto_pause = 3600
   }
 
   lifecycle {
