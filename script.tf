@@ -61,7 +61,7 @@ resource "null_resource" "create_db_role" {
       API_ROLE_PASSWORD = "${jsondecode(aws_secretsmanager_secret_version.api_role_password_version.secret_string).password}"
       SCP_ROLE_PASSWORD = "${jsondecode(aws_secretsmanager_secret_version.scp_role_password_version.secret_string).password}"
       API_ROLE_NAME     = "api_cpm"
-      SCP_ROLE_NAME     = "scp-insights"
+      SCP_ROLE_NAME     = "scp_insights"
     }
   }
 }
