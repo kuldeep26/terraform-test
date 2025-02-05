@@ -6,7 +6,7 @@ resource "aws_rds_cluster" "example" {
   cluster_identifier              = "example"
   engine                          = "aurora-postgresql"
   engine_mode                     = "provisioned"
-  engine_version                  = "14.9"
+  engine_version                  = "14.11"
   vpc_security_group_ids          = [aws_security_group.security_group.id]
   database_name                   = "test"
   master_username                 = "test"
@@ -17,8 +17,8 @@ resource "aws_rds_cluster" "example" {
   skip_final_snapshot             = true
 
   serverlessv2_scaling_configuration {
-    max_capacity             = 1.0
-    min_capacity             = 0.0
+    max_capacity = 1.0
+    min_capacity = 0.0
   }
 
   lifecycle {
@@ -64,12 +64,12 @@ resource "aws_db_parameter_group" "parameter_group" {
 resource "aws_db_subnet_group" "subnet_group" {
   name        = "db-subnet"
   description = "Subnet groups for RDS with Private subnet ids"
-  subnet_ids  = ["subnet-011f1bd1ebafaf2aa", "subnet-0062533b0e05b0700"]
+  subnet_ids  = ["subnet-0aa3b98c6b8337335", "subnet-066d3c262fc550b65"]
 }
 
 resource "aws_security_group" "security_group" {
   name   = "rds-security-group"
-  vpc_id = "vpc-097d46761a7957650"
+  vpc_id = "vpc-0076d4617fe49f168"
 
   dynamic "ingress" {
     for_each = toset(local.ingress_cidr)
