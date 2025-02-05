@@ -58,10 +58,12 @@ resource "null_resource" "create_db_role" {
       DB_HOST           = "${aws_rds_cluster.example.endpoint}"
       DB_USER           = "test" # Change as needed
       DB_NAME           = "test" # Change as needed
-      API_ROLE_PASSWORD = "${jsondecode(aws_secretsmanager_secret_version.api_role_password_version.secret_string).password}"
-      SCP_ROLE_PASSWORD = "${jsondecode(aws_secretsmanager_secret_version.scp_role_password_version.secret_string).password}"
+#      API_ROLE_PASSWORD = "${jsondecode(aws_secretsmanager_secret_version.api_role_password_version.secret_string).password}"
+      API_ROLE_PASSWORD = "${random_string.api_role_api_password.result}"
+#      SCP_ROLE_PASSWORD = "${jsondecode(aws_secretsmanager_secret_version.scp_role_password_version.secret_string).password}"
+      SCP_ROLE_PASSWORD = "${random_string.insight_role_api_password.result}"
       API_ROLE_NAME     = "api_cpm"
-      SCP_ROLE_NAME     = "scp_insights"
+      SCP_ROLE_NAME     = "scp_insight"
     }
   }
 }
