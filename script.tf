@@ -48,7 +48,7 @@ resource "aws_secretsmanager_secret_version" "rds_password_version" {
   })
 }
 
-resource "null_resource" "create_db_role" {
+resource "null_resource" "create_db_role_1" {
   depends_on = [aws_rds_cluster.example, aws_rds_cluster_instance.example]
 
   provisioner "local-exec" {
