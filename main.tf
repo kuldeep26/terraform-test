@@ -7,7 +7,7 @@ resource "aws_rds_cluster" "example" {
   engine                          = "aurora-postgresql"
   engine_mode                     = "provisioned"
   engine_version                  = "14.15"
-  vpc_security_group_ids          = [aws_security_group.subnet_group.id]
+  vpc_security_group_ids          = [aws_security_group.security_group.id]
   database_name                   = "test"
   master_username                 = "test"
   master_password                 = "must_be_eight_characters"
