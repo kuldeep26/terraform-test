@@ -11,5 +11,5 @@ variable "api_role_password" {
 }
 variable "ingestor_role_password" {
 }
-variable "insights_role_username" {
+variable "insights_role_password" {
 }
