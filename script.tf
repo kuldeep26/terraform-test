@@ -8,9 +8,10 @@ resource "random_string" "insight_role_api_password" {
   special = false
 }
 
-resource "random_string" "ingestion_role_api_password" {
+resource "random_password" "ingestion_role_api_password" {
   length  = 10
   special = false
+  sensitive = false
 }
 
 resource "aws_secretsmanager_secret" "api_role_password" {
@@ -50,7 +51,7 @@ resource "aws_secretsmanager_secret_version" "ingestion_role_password_version" {
   secret_id = aws_secretsmanager_secret.ingestion_role_password.id
   secret_string = jsonencode({
     role_name = "${var.ingestion_role_username}",
-    password  = "${random_string.ingestion_role_api_password.result}"
+    password  = "${random_password.ingestion_role_api_password.result}"
   })
 }
 
@@ -81,7 +82,7 @@ resource "null_resource" "create_db_role_1" {
       API_ROLE_PASSWORD = "${random_string.api_role_api_password.result}"
       #      SCP_ROLE_PASSWORD = "${jsondecode(aws_secretsmanager_secret_version.scp_role_password_version.secret_string).password}"
       INSIGHTS_ROLE_PASSWORD = "${random_string.insight_role_api_password.result}"
-      INGESTOR_ROLE_PASSWORD = "${random_string.ingestion_role_api_password.result}"
+      INGESTOR_ROLE_PASSWORD = "${random_password.ingestion_role_api_password.result}"
       API_ROLE_NAME          = "${var.api_role_username}"
       INSIGHTS_ROLE_NAME     = "${var.insights_role_username}"
       INGESTOR_ROLE          = "${var.ingestion_role_username}"
