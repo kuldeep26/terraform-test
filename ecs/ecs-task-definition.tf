@@ -6,7 +6,7 @@ locals {
     },
     {
       name  = "DB_API_Role_password"
-      value = jsondecode(aws_secretsmanager_secret_version.api_role_password_version.secret_string).password
+      value = var.api_role_password
     },
     {
       name  = "DB_INGESTION_Role_username"
@@ -14,7 +14,7 @@ locals {
     },
     {
       name  = "DB_INGESTION_Role_password"
-      value = jsondecode(aws_secretsmanager_secret_version.ingestion_role_password_version.secret_string).password
+      value = var.ingestor_role_password
     },
     {
       name  = "DB_INSIGHTS_Role_username"
@@ -22,7 +22,7 @@ locals {
     },
     {
       name  = "DB_INSIGHTS_Role_password"
-      value = jsondecode(aws_secretsmanager_secret_version.insights_role_password_version.secret_string).password
+      value = var.insights_role_password
     }
   ]
 }
@@ -49,8 +49,8 @@ resource "aws_ecs_task_definition" "api_task_definition" {
       essential   = true
       command = [
         "--strategy=AWS",
-        "--db-role-name=test",
-        "--db-role-password=${jsondecode(aws_secretsmanager_secret_version.api_role_password_version.secret_string).password}"
+        "--db-role-name=${var.api_role_user}",
+        "--db-role-password=${var.api_role_password}"
       ]
       portMappings = [
         {
