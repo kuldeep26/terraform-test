@@ -79,9 +79,10 @@ resource "null_resource" "create_db_role_1" {
     command = "/bin/bash create_role.sh"
 
     environment = {
-      DB_HOST = "${aws_rds_cluster.example.endpoint}"
-      DB_USER = "test" # Change as needed
-      DB_NAME = "test" # Change as needed
+      DB_HOST               = "${aws_rds_cluster.example.endpoint}"
+      DB_USER               = "test" # Change as needed
+      DB_NAME               = "test" # Change as needed
+      RDS_ADMIN_SECRET_NAME = "${aws_secretsmanager_secret.rds_password.name}"
       #      API_ROLE_PASSWORD = "${jsondecode(aws_secretsmanager_secret_version.api_role_password_version.secret_string).password}"
       API_ROLE_PASSWORD = "${random_string.api_role_api_password.result}"
       #      SCP_ROLE_PASSWORD = "${jsondecode(aws_secretsmanager_secret_version.scp_role_password_version.secret_string).password}"

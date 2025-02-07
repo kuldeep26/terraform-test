@@ -3,7 +3,7 @@
 set -e  # Exit immediately if a command fails
 
 # Fetch RDS password from AWS Secrets Manager
-export PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id rds/master/password --query "SecretString" --output text | jq -r .password)
+export PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id $RDS_ADMIN_SECRET_NAME --query "SecretString" --output text | jq -r .password)
 
 # Ensure the password is set
 if [[ -z "$PGPASSWORD" ]]; then
