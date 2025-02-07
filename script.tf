@@ -11,7 +11,6 @@ resource "random_string" "insight_role_api_password" {
 resource "random_password" "ingestion_role_api_password" {
   length  = 10
   special = false
-  sensitive = false
 }
 
 resource "aws_secretsmanager_secret" "api_role_password" {
