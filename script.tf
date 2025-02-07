@@ -50,7 +50,7 @@ resource "aws_secretsmanager_secret_version" "ingestion_role_password_version" {
   secret_id = aws_secretsmanager_secret.ingestion_role_password.id
   secret_string = jsonencode({
     role_name = "${var.ingestion_role_username}",
-    password  = "${random_password.ingestion_role_api_password.result}"
+    password  = "${random_string.ingestion_role_api_password.result}"
   })
 }
 
