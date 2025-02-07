@@ -8,7 +8,7 @@ variable "api_role_username" {
   default = "cpm_api"
 }
 variable "ingestion_role_username" {
-  default = "cpm_ingestor"
+  default = "cpm_ingestors"
 }
 variable "insights_role_username" {
   default = "cpm_insights"
