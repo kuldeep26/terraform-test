@@ -64,12 +64,12 @@ resource "aws_db_parameter_group" "parameter_group" {
 resource "aws_db_subnet_group" "subnet_group" {
   name        = "db-subnet"
   description = "Subnet groups for RDS with Private subnet ids"
-  subnet_ids  = ["subnet-0aa3b98c6b8337335", "subnet-066d3c262fc550b65"]
+  subnet_ids  = ["subnet-0a29472fb859f166c", "subnet-0234cbe90e4af63e5"]
 }
 
 resource "aws_security_group" "security_group" {
   name   = "rds-security-group"
-  vpc_id = "vpc-0076d4617fe49f168"
+  vpc_id = "vpc-0ff8f043c504c4b86"
 
   dynamic "ingress" {
     for_each = toset(local.ingress_cidr)
