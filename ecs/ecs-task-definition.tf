@@ -49,7 +49,7 @@ resource "aws_ecs_task_definition" "api_task_definition" {
       essential   = true
       command = [
         "--strategy=AWS",
-        "--db-role-name=${var.api_role_user}",
+        "--db-role-name=${var.api_role_username}",
         "--db-role-password=${var.api_role_password}"
       ]
       portMappings = [
