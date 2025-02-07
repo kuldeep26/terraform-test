@@ -10,7 +10,7 @@ resource "aws_rds_cluster" "example" {
   vpc_security_group_ids          = [aws_security_group.security_group.id]
   database_name                   = "test"
   master_username                 = "test"
-  master_password                 = "must_be_eight_characters"
+  master_password                 = jsondecode(aws_secretsmanager_secret_version.rds_password_version.secret_string).password
   storage_encrypted               = true
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.cluster_parameter_group.name
   availability_zones              = ["us-east-1a", "us-east-1b"]

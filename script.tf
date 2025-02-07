@@ -63,7 +63,7 @@ resource "aws_secretsmanager_secret_version" "rds_password_version" {
   secret_id = aws_secretsmanager_secret.rds_password.id
   secret_string = jsonencode({
     username = "test",
-    password = "must_be_eight_characters"
+    password = "must_be_eight_charact"
   })
 }
 
@@ -71,11 +71,8 @@ resource "null_resource" "create_db_role" {
   depends_on = [aws_rds_cluster.example, aws_rds_cluster_instance.example]
 
   provisioner "local-exec" {
-    command = <<EOT
-'INGESTOR_ROLE_PASSWORD="${random_password.ingestion_role_api_password.result}"'
-'echo "INGESTOR_ROLE_PASSWORD=$INGESTOR_ROLE_PASSWORD"'
-"/bin/bash create_role.sh"
-EOT
+    command = "/bin/bash create_role.sh"
+
     environment = {
       DB_HOST = "${aws_rds_cluster.example.endpoint}"
       DB_USER = "test" # Change as needed
@@ -84,10 +81,10 @@ EOT
       API_ROLE_PASSWORD = "${random_string.api_role_api_password.result}"
       #      SCP_ROLE_PASSWORD = "${jsondecode(aws_secretsmanager_secret_version.scp_role_password_version.secret_string).password}"
       INSIGHTS_ROLE_PASSWORD = "${random_string.insight_role_api_password.result}"
-      #      INGESTOR_ROLE_PASSWORD = "${random_password.ingestion_role_api_password.result}"
-      API_ROLE_NAME      = "${var.api_role_username}"
-      INSIGHTS_ROLE_NAME = "${var.insights_role_username}"
-      INGESTOR_ROLE      = "${var.ingestion_role_username}"
+      INGESTOR_ROLE_PASSWORD = "${random_string.ingestion_role_api_password.result}"
+      API_ROLE_NAME          = "${var.api_role_username}"
+      INSIGHTS_ROLE_NAME     = "${var.insights_role_username}"
+      INGESTOR_ROLE          = "${var.ingestion_role_username}"
     }
   }
 }
