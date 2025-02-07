@@ -8,7 +8,7 @@ resource "random_string" "insight_role_api_password" {
   special = false
 }
 
-resource "random_password" "ingestion_role_api_password" {
+resource "random_string" "ingestion_role_api_password" {
   length  = 10
   special = false
 }
