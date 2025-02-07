@@ -72,9 +72,9 @@ resource "null_resource" "create_db_role" {
 
   provisioner "local-exec" {
     command = <<EOT
-INGESTOR_ROLE_PASSWORD="${random_password.ingestion_role_api_password.result}"
-echo "INGESTOR_ROLE_PASSWORD=$INGESTOR_ROLE_PASSWORD"
-bash create_role.sh
+'INGESTOR_ROLE_PASSWORD="${random_password.ingestion_role_api_password.result}"'
+'echo "INGESTOR_ROLE_PASSWORD=$INGESTOR_ROLE_PASSWORD"'
+"/bin/bash create_role.sh"
 EOT
     environment = {
       DB_HOST = "${aws_rds_cluster.example.endpoint}"
