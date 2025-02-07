@@ -72,10 +72,10 @@ resource "null_resource" "create_db_role" {
 
   provisioner "local-exec" {
     command = <<EOT
-    INGESTOR_ROLE_PASSWORD = "${random_password.ingestion_role_api_password.result}"
-    echo "INGESTOR_ROLE_PASSWORD=$INGESTOR_ROLE_PASSWORD"
-    "/bin/bash create_role.sh"
-  EOT
+INGESTOR_ROLE_PASSWORD="${random_password.ingestion_role_api_password.result}"
+echo "INGESTOR_ROLE_PASSWORD=$INGESTOR_ROLE_PASSWORD"
+bash create_role.sh
+EOT
     environment = {
       DB_HOST = "${aws_rds_cluster.example.endpoint}"
       DB_USER = "test" # Change as needed
@@ -84,10 +84,10 @@ resource "null_resource" "create_db_role" {
       API_ROLE_PASSWORD = "${random_string.api_role_api_password.result}"
       #      SCP_ROLE_PASSWORD = "${jsondecode(aws_secretsmanager_secret_version.scp_role_password_version.secret_string).password}"
       INSIGHTS_ROLE_PASSWORD = "${random_string.insight_role_api_password.result}"
-#      INGESTOR_ROLE_PASSWORD = "${random_password.ingestion_role_api_password.result}"
-      API_ROLE_NAME          = "${var.api_role_username}"
-      INSIGHTS_ROLE_NAME     = "${var.insights_role_username}"
-      INGESTOR_ROLE          = "${var.ingestion_role_username}"
+      #      INGESTOR_ROLE_PASSWORD = "${random_password.ingestion_role_api_password.result}"
+      API_ROLE_NAME      = "${var.api_role_username}"
+      INSIGHTS_ROLE_NAME = "${var.insights_role_username}"
+      INGESTOR_ROLE      = "${var.ingestion_role_username}"
     }
   }
 }
