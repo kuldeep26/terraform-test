@@ -13,6 +13,11 @@ resource "random_string" "ingestion_role_api_password" {
   special = false
 }
 
+resource "random_password" "rds_paasword" {
+  length  = 10
+  special = false
+}
+
 resource "aws_secretsmanager_secret" "api_role_password" {
   name        = "rds/api/role/password"
   description = "API Role password for RDS"
@@ -63,7 +68,7 @@ resource "aws_secretsmanager_secret_version" "rds_password_version" {
   secret_id = aws_secretsmanager_secret.rds_password.id
   secret_string = jsonencode({
     username = "test",
-    password = "must_be_eight_charact"
+    password = "${random_string.rds_paasword.result}"
   })
 }
 

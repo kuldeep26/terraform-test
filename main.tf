@@ -15,6 +15,7 @@ resource "aws_rds_cluster" "example" {
   db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.cluster_parameter_group.name
   availability_zones              = ["us-east-1a", "us-east-1b"]
   skip_final_snapshot             = true
+  apply_immediately               = true
 
   serverlessv2_scaling_configuration {
     max_capacity = 1.0
