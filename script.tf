@@ -13,7 +13,7 @@ resource "random_string" "ingestion_role_api_password" {
   special = false
 }
 
-resource "random_password" "rds_paasword" {
+resource "random_string" "rds_paasword" {
   length  = 10
   special = false
 }
@@ -68,11 +68,11 @@ resource "aws_secretsmanager_secret_version" "rds_password_version" {
   secret_id = aws_secretsmanager_secret.rds_password.id
   secret_string = jsonencode({
     username = "test",
-    password = "${random_password.rds_paasword.result}"
+    password = "${random_string.rds_paasword.result}"
   })
 }
 
-resource "null_resource" "create_db_role" {
+resource "null_resource" "create_db_role_1" {
   depends_on = [aws_rds_cluster.example, aws_rds_cluster_instance.example]
 
   provisioner "local-exec" {
